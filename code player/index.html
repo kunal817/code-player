@@ -1,0 +1,118 @@
+<html>
+    <head>
+        <title>Code Player</title>
+        <link href="jquery-ui-1.12.1/jquery-ui.css" rel="stylesheet">
+        <link rel="stylesheet" href="Assets/resources/bootstrap-4.5.0-dist/css/bootstrap.css">
+        <script type="text/javascript" src="Assets/resources/jquery.min.js"></script>
+        <script type="text/javascript" src="Assets/resources/jquery-ui-1.12.1/jquery-ui.js"></script>
+        <link rel="stylesheet" href="Assets/Stylesheets/main.css">
+        <link rel="icon" href="Assets/images/icon.png" type="image/x-icon">
+            
+    </head>
+    
+    <body>
+        <div class="loader">
+            <img class="bounce-logo"src="Assets/images/logo.png">
+        </div>
+        
+        <div id="header">
+            
+            <div id="logo">
+                
+                <a href="index.html"><img src="Assets/images/logo.png" height="70px" width="160px"></a>
+            
+            </div>
+            
+            <div id="buttonContainer" class="btn-group">
+                
+                <div class="togglebutton active btn btn-primary" id="html">HTML</div>
+                <div class="togglebutton btn btn-primary" id="css">CSS</div>
+                <div class="togglebutton btn btn-primary" id="javascript">JavaScript</div>
+                <div class="togglebutton active btn btn-primary" id="output">Output</div>
+                
+            
+            </div>
+        
+        </div>
+        
+        <div id="bodycontainer">
+            
+            <textarea id="htmlpanel" class="panel">     <!--write HTML codes here-->
+                
+<p id="para">Hey</p>            
+            </textarea>
+            
+            <textarea id="csspanel" class="panel hidden">       /*write CSS codes here*/
+                
+p {color:red;}
+            
+            </textarea>
+            
+            <textarea id="javascriptpanel" class="panel hidden">        //write JavaScript codes here
+                
+document.getElementById("para").innerHTML = "Hey! welcome to CodePlayer";</textarea>
+            
+            <iframe id="outputpanel" class="panel"></iframe>
+        
+        </div>
+        
+        
+        <script type="text/javascript">
+            
+            function updateOutput(){
+                
+                $("iframe").contents().find("html").html("<html><head><style type='text/css'>" + $("#csspanel").val() + "</style></head><body>" + $("#htmlpanel").val() +"</body></html>");
+                
+                document.getElementById("outputpanel").contentWindow.eval($("#javascriptpanel").val());
+                
+                
+            }
+            
+            $(".togglebutton").hover(function(){
+                
+                $(this).addClass("highlightedbutton");
+            } , function(){
+                
+                $(this).removeClass("highlightedbutton");
+                
+            });
+            
+            $(".togglebutton").click(function(){
+                
+                $(this).toggleClass("active");
+                
+                $(this).removeClass("highlightedbutton");
+                
+                var panelid = $(this).attr("id") + "panel";
+                
+                $("#"+panelid).toggleClass("hidden");
+                
+                var numberOfActivePanels = 4 - $('.hidden').length;
+                
+                $(".panel").width(($(window).width()/numberOfActivePanels)-10);
+                
+            });
+            
+            $(".panel").height($(window).height() - $("#header").height()-15);
+            
+            $(".panel").width(($(window).width()/2) - 4);
+            
+            updateOutput();
+            
+            $("textarea").on('change keyup paste' , function(){
+                
+                updateOutput();
+            });
+           
+            window.addEventListener("load",function() {
+                const loader = document.querySelector(".loader");
+                loader.className += " hide";
+            });
+            
+        </script>
+    
+    
+    </body>
+
+
+</html>
